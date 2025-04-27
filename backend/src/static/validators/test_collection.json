@@ -1,0 +1,15 @@
+{
+    "$jsonSchema": {
+      "bsonType": "object",
+      "required": ["name", "age"],
+      "properties": {
+        "name": {
+          "bsonType": "string"
+        },
+        "age": {
+          "bsonType": "int"
+        }
+      }
+    }
+  }
+  
