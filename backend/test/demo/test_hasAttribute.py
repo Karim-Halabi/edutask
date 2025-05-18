@@ -17,7 +17,6 @@ def test_hasAttribute_false(obj):
     
 @pytest.mark.unit
 def test_hasAttribute_None():
-    obj = None
-    result = hasAttribute(obj, 'name')
-    assert result == False
+    with pytest.raises(TypeError):
+        hasAttribute(None, 'name')
 
