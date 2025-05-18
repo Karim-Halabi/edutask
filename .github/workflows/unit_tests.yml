@@ -2,11 +2,10 @@ name: Unit_Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, fix-get-user-by-email]
   pull_request:
-    branches:
-      - main
+    branches: [main, fix-get-user-by-email]
+  workflow_dispatch:
 
 jobs:
   test:
