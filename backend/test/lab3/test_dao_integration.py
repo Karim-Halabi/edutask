@@ -2,7 +2,6 @@ import json
 from src.util import validators
 import pytest
 import os
-
 from pymongo import MongoClient, errors
 from src.util.dao import DAO
 
