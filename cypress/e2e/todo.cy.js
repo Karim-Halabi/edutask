@@ -12,24 +12,10 @@ describe('R8UC1 to R8UC3)', () => {
         body: user,
       }).then((res) => {
         user._id = res.body._id.$oid;
-
-        cy.visit('http://localhost:3000');
-        cy.contains('div', 'Email Address')
-          .find('input[type=text]')
-          .type(user.email);
-
-        cy.get('form').submit();
-
-        cy.contains(`Your tasks, ${user.firstName} ${user.lastName}`, { timeout: 8000 }).should('exist');
-
-        cy.get('#title').type('test task for R8');
-        cy.get('#url').type('x7X9w_GIm1s');
-        cy.get('input[type="submit"][value="Create new Task"]')
-          .should('not.be.disabled')
-          .click();
       });
     });
   });
+
 
   beforeEach(() => {
     cy.visit('http://localhost:3000');
@@ -41,18 +27,29 @@ describe('R8UC1 to R8UC3)', () => {
     cy.get('form').submit();
 
     cy.contains(`Your tasks, ${user.firstName} ${user.lastName}`, { timeout: 8000 }).should('exist');
-
-    cy.contains('.title-overlay', 'test task for R8', { timeout: 8000 }).click();
-
-    cy.get('input[placeholder="Add a new todo item"]', { timeout: 8000 }).should('exist');
-    cy.contains('.todo-item', 'Watch video', { timeout: 8000 }).should('exist');
   });
 
+
   it('R8UC1: Add', () => {
+    cy.get('#title').type('Test task for R8UC1');
+    cy.get('#url').type('x7X9w_GIm1s');
+    cy.get('input[type="submit"][value="Create new Task"]').click();
+    cy.contains('.title-overlay', 'Test task for R8UC1').click();
+    cy.get('input[placeholder="Add a new todo item"]')
+      .type('Watch video{enter}');
+
     cy.contains('.todo-item', 'Watch video').should('exist');
   });
 
+
   it('R8UC2: Toggle', () => {
+    cy.get('#title').type('Test task for R8UC2');
+    cy.get('#url').type('url-toggle');
+    cy.get('input[type="submit"][value="Create new Task"]').click();
+    cy.contains('.title-overlay', 'Test task for R8UC2').click();
+    cy.get('input[placeholder="Add a new todo item"]')
+      .type('Watch video{enter}');
+
     cy.contains('.todo-item', 'Watch video')
       .find('.checker')
       .click({ force: true });
@@ -71,10 +68,20 @@ describe('R8UC1 to R8UC3)', () => {
   });
 
   it('R8UC3: Delete', () => {
+    cy.get('#title').type('Test task for R8UC3');
+    cy.get('#url').type('url-delete');
+    cy.get('input[type="submit"][value="Create new Task"]').click();
+    cy.contains('.title-overlay', 'Test task for R8UC3', { timeout: 8000 }).click();
+    cy.contains('.todo-item', 'Watch video', { timeout: 8000 }).should('exist');
+    cy.contains('.todo-item', 'Watch video')
+      .find('.checker')
+      .click({ force: true });
+
     cy.contains('.todo-item', 'Watch video')
       .find('.remover')
       .click({ force: true });
 
+    cy.contains('.todo-item', 'Watch video').should('not.exist');
   });
 
   after(() => {
